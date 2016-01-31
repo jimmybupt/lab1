@@ -1,4 +1,8 @@
-#Lab1
+"""
+Lab1 data preprocessing
+
+@author: Zhe Dong, Kun Liu
+"""
 
 class Document:
 	def __init__(self):
@@ -47,6 +51,8 @@ def get_word_frequency(soup):
 				if not word[0].isalpha():
 					continue
 				if word in stop:
+					continue
+				if len(word)<2:
 					continue
                                 word = stemmer.stem(word) #get words stemmed
                                 if word not in D.freq:
