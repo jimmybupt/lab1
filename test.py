@@ -1,18 +1,16 @@
 #Lab1
 
-#Another thing we forgot to add is the class labels as provided in the TOPICS and PLACES tabs of each article
-
 class Document:
 	def __init__(self):
 		self.title = ""
-		self.topic = ""
+		self.topics = []
+		self.places = []
 		self.id = 0
 		self.freq = {}
 		self.vector = []
 
 
 import nltk
-import copy
 import sys
 sys.setrecursionlimit(100000)
 import operator
@@ -33,8 +31,12 @@ def get_word_frequency(soup):
                 if doc.find("title") is not None:
 			D.title = unicode(doc.find("title").string)
 			print D.title
-		if doc.find("topics") is not None:
-			D.topic = unicode(doc.find("topics").string)
+            	if doc.find("topics") is not None:
+                    for topic in doc.topics.children:                    
+                        D.topics.append(unicode(doc.find("topics").string))
+                if doc.find("places") is not None:
+                    for place in doc.places.children:                    
+                        D.places.append(unicode(doc.find("places").string))
 		D.id = int(id)
 		D.freq = {}
                 if doc.find("body") is not None:
