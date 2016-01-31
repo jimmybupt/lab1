@@ -7,7 +7,8 @@ class Document:
 		self.places = []
 		self.id = 0
 		self.freq = {}
-		self.vector = []
+		self.freq_vector = []
+  		self.tf_idf_vector = []
 
 
 import nltk
@@ -69,6 +70,7 @@ for file in listdir(file_path):
     Document_List += get_word_frequency(soup)
     break
     
+ #remove words only show up once among all documents  
 for key in Vocabulary.keys():
     if Vocabulary[key] == 1:
 	del Vocabulary[key]
@@ -90,7 +92,8 @@ for D in Document_List:
 			vector.append(float(D.freq[item[0]]))
 		else:
 			vector.append(0.0)
-	#D.vector = vector
+	#construct feature vector using word frequency
+	D.freq_vector = vector
 	D.freq = {}
 	
 	#compute tf-idf
@@ -102,7 +105,8 @@ for D in Document_List:
 	for f in doc_count:
 		tf_idf.append(math.log(len(Document_List)/f))
 	tf_idf = map(operator.mul, vector, tf_idf)
-	D.vector = tf_idf 
+	#construct feature vector using tf-idf
+	D.tf_idf_vector = tf_idf 
 
 import pickle
 
