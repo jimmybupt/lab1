@@ -77,17 +77,30 @@ for item in sorted_Vocabulary:
 
 print "Vacabulary has %d words." % len(Vocabulary)
 
+import math
 for D in Document_List:
 	vector = []
-	#print freq
+	doc_count = []
+	tf_idf = []
 	for item in sorted_Vocabulary:
+		doc_count.append(float(item[1]))
 		if item[0] in D.freq:
-			vector.append(D.freq[item[0]])
+			vector.append(float(D.freq[item[0]]))
 		else:
-			vector.append(0)
-	D.vector = vector
+			vector.append(0.0)
+	#D.vector = vector
 	D.freq = {}
-	#print vector
+	
+	#compute tf-idf
+	max_freq = max(vector)
+	if max_freq == 0:
+		max_freq = 1
+	for f in vector:
+		f = 0.5 + 0.5 * (f/max_freq)
+	for f in doc_count:
+		tf_idf.append(math.log(len(Document_List)/f))
+	tf_idf = map(operator.mul, vector, tf_idf)
+	D.vector = tf_idf 
 
 import pickle
 
@@ -95,7 +108,7 @@ with open('document_data.pkl', 'w') as output:
 	for D in Document_List:
 		pickle.dump(D, output, 0)
 
-with open('vocabular.pkl', 'w') as output:
+with open('vocabulary.pkl', 'w') as output:
 	pickle.dump(sorted_Vocabulary, output, 0)
 
 
