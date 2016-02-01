@@ -52,9 +52,9 @@ def get_word_frequency(soup):
 					continue
 				if word in stop:
 					continue
-				if len(word)=1:
+				if len(word)==1:
 					continue
-                                if "." in word and len(word)=2:
+                                if "." in word and len(word)==2:
                                     	continue
                                 word = stemmer.stem(word) #get words stemmed
                                 if word not in D.freq:
