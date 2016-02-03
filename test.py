@@ -105,7 +105,7 @@ file_path = "./data/"
 for file in listdir(file_path):
     soup = BeautifulSoup(open(file_path+file),"html.parser")
     Document_List += get_word_frequency(soup)
-    break
+
 #remove words only show up once among all documents  
 for key in Vocabulary.keys():
     if Vocabulary[key] == 1:
@@ -122,14 +122,10 @@ for idx, item in enumerate(sorted_Vocabulary):
 
 print ("Vacabulary has %d words." % len(Vocabulary))
 
-import numpy as np
-from scipy.sparse import csr_matrix
-
-tf_idf_matrix = csr_matrix((len(Document_List), len(sorted_Vocabulary)), dtype=float)
 
 for idx, D in enumerate(Document_List):
 	print ("Caculating vector for document #" + str(D.id))
-	vector = len(sorted_Vocabulary)*[0.0]
+	vector = []
 	max_freq = 0
 	for key in D.freq:
 		if key in Vocabulary:
@@ -138,10 +134,10 @@ for idx, D in enumerate(Document_List):
 		if key in Vocabulary:
  			tf = float(D.freq[key])/float(max_freq)
 			word_id = Vocabulary[key]
-			tf_idf_matrix[idx][word_id] = tf * idf[word_id]
+			vector.append((word_id, tf * idf[word_id]))
 
 	#construct feature vector using word frequency
-	#D.freq_vector = vector
+	D.tf_idf_vector = vector
 	D.freq = {}
 	
 	#compute tf-idf
