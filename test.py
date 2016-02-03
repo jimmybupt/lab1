@@ -99,13 +99,13 @@ def get_word_frequency(soup):
     
 #ask for directory for dataset
 #file_path=raw_input("Please enter the directory of reuters dataset: ") 
-file_path = "./data/"
+file_path = "/home/2/dongzh/lab/lab1/data/"
 
 #iterate through all files in the given directory
 for file in listdir(file_path):
     soup = BeautifulSoup(open(file_path+file),"html.parser")
     Document_List += get_word_frequency(soup)
-    break
+
 #remove words only show up once among all documents  
 for key in Vocabulary.keys():
     if Vocabulary[key] == 1:
