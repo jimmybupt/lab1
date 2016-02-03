@@ -85,7 +85,7 @@ def get_word_frequency(soup):
                                 if "." in word and len(word)==2:
                                     	continue
                                 word = lemmatizer.lemmatize(word, pos)
-                                word = stemmer.stem(word) #get words stemmed
+                                #word = stemmer.stem(word) #get words stemmed
 				if word not in D.freq:
                                         if word not in Vocabulary:
                                                 Vocabulary[word] = 1
