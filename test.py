@@ -105,7 +105,7 @@ file_path = "./data/"
 for file in listdir(file_path):
     soup = BeautifulSoup(open(file_path+file),"html.parser")
     Document_List += get_word_frequency(soup)
-
+    break
 #remove words only show up once among all documents  
 for key in Vocabulary.keys():
     if Vocabulary[key] == 1:
@@ -126,18 +126,21 @@ print ("Vacabulary has %d words." % len(Vocabulary))
 for idx, D in enumerate(Document_List):
 	print ("Caculating vector for document #" + str(D.id))
 	vector = []
+	raw_vector = []
 	max_freq = 0
 	for key in D.freq:
 		if key in Vocabulary:
 			max_freq = max_freq if max_freq >= D.freq[key] else D.freq[key]
 	for key in D.freq:
 		if key in Vocabulary:
- 			tf = float(D.freq[key])/float(max_freq)
 			word_id = Vocabulary[key]
+ 			raw_vector.append((word_id, D.freq[key]))
+			tf = float(D.freq[key])/float(max_freq)
 			vector.append((word_id, tf * idf[word_id]))
 
 	#construct feature vector using word frequency
 	D.tf_idf_vector = vector
+	D.freq_vector = raw_vector
 	D.freq = {}
 	
 	#compute tf-idf
@@ -154,11 +157,24 @@ for idx, D in enumerate(Document_List):
 
 import pickle
 
-with open('document_data.pkl', 'w') as output:
-	for D in Document_List:
-		pickle.dump(D, output, 1)
+vector1_file = open('vector1.txt', 'w')
+vector2_file = open('vector2.txt', 'w')
+vocabulary_file = open('vocabulary.txt', 'w')
 
-with open('vocabulary.pkl', 'w') as output:
-	pickle.dump(sorted_Vocabulary, output, 0)
+for D in Document_List:
+	print(D.tf_idf_vector, file=vector1_file)
+	print(D.freq_vector, file=vector2_file)
+
+for item in sorted_Vocabulary:
+	print(item[0], file=vocabulary_file)
+
+
+#with open('document_data.pkl', 'w') as output:
+#	for D in Document_List:
+#		pickle.dump(D, output, 1)
+
+
+#with open('vocabulary.pkl', 'w') as output:
+#	pickle.dump(sorted_Vocabulary, output, 0)
 
 
