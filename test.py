@@ -160,10 +160,14 @@ import pickle
 vector1_file = open('vector1.txt', 'w')
 vector2_file = open('vector2.txt', 'w')
 vocabulary_file = open('vocabulary.txt', 'w')
+info_file = open('info.txt', 'w')
+
+print(len(sorted_Vocabulary), file=info_file)
 
 for D in Document_List:
 	print(D.tf_idf_vector, file=vector1_file)
 	print(D.freq_vector, file=vector2_file)
+
 
 for item in sorted_Vocabulary:
 	print(item[0], file=vocabulary_file)
