@@ -108,7 +108,7 @@ for file in listdir(file_path):
 
 #remove words only show up once among all documents  
 for key in Vocabulary.keys():
-    if Vocabulary[key] == 1:
+    if Vocabulary[key] <= 20:
 	del Vocabulary[key]
 
 import math
@@ -157,17 +157,20 @@ for idx, D in enumerate(Document_List):
 
 import pickle
 
-vector1_file = open('vector1.txt', 'w')
-vector2_file = open('vector2.txt', 'w')
-vocabulary_file = open('vocabulary.txt', 'w')
-info_file = open('info.txt', 'w')
+outpath = '../lab2/'
+
+vector1_file = open(outpath + 'vector1.txt', 'w')
+vector2_file = open(outpath + 'vector2.txt', 'w')
+vocabulary_file = open(outpath + 'vocabulary.txt', 'w')
+info_file = open(outpath  + 'info.txt', 'w')
+label_file = open(outpath + 'label.txt', 'w')
 
 print(len(sorted_Vocabulary), file=info_file)
 
 for D in Document_List:
 	print(D.tf_idf_vector, file=vector1_file)
 	print(D.freq_vector, file=vector2_file)
-
+	print(D.topics, file=label_file)
 
 for item in sorted_Vocabulary:
 	print(item[0], file=vocabulary_file)
