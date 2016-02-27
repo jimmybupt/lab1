@@ -60,12 +60,12 @@ def get_word_frequency(soup):
                 if doc.find("title") is not None:
 			D.title = unicode(doc.find("title").string)
 			#print D.title
-            	if doc.find("topics") is not None:
+            	if doc.topics is not None:
                     for topic in doc.topics.children:                    
-                        D.topics.append(unicode(doc.find("topics").string))
-                if doc.find("places") is not None:
+                        D.topics.append(topic.text)
+                if doc.places is not None:
                     for place in doc.places.children:                    
-                        D.places.append(unicode(doc.find("places").string))
+                        D.places.append(place.text)
 		D.id = int(id)
 		D.freq = {}
                 if doc.find("body") is not None:
@@ -99,7 +99,7 @@ def get_word_frequency(soup):
     
 #ask for directory for dataset
 #file_path=raw_input("Please enter the directory of reuters dataset: ") 
-file_path = "/home/2/dongzh/lab/lab1/data/"
+file_path = "data/"
 
 #iterate through all files in the given directory
 for file in listdir(file_path):
@@ -175,7 +175,7 @@ for D in Document_List:
 for item in sorted_Vocabulary:
 	print(item[0], file=vocabulary_file)
 
-
+print ("complete")
 #with open('document_data.pkl', 'w') as output:
 #	for D in Document_List:
 #		pickle.dump(D, output, 1)
