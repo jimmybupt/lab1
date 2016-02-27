@@ -60,12 +60,12 @@ def get_word_frequency(soup):
                 if doc.find("title") is not None:
 			D.title = unicode(doc.find("title").string)
 			#print D.title
-            	if doc.find("topics") is not None:
+            	if doc.topics is not None:
                     for topic in doc.topics.children:                    
-                        D.topics.append(unicode(doc.find("topics").string))
-                if doc.find("places") is not None:
+                        D.topics.append(topic.text)
+                if doc.places is not None:
                     for place in doc.places.children:                    
-                        D.places.append(unicode(doc.find("places").string))
+                        D.places.append(place.text)
 		D.id = int(id)
 		D.freq = {}
                 if doc.find("body") is not None:
@@ -99,7 +99,7 @@ def get_word_frequency(soup):
     
 #ask for directory for dataset
 #file_path=raw_input("Please enter the directory of reuters dataset: ") 
-file_path = "/home/2/dongzh/lab/lab1/data/"
+file_path = "data/"
 
 #iterate through all files in the given directory
 for file in listdir(file_path):
@@ -159,6 +159,9 @@ import pickle
 
 vector1_file = open('vector1.txt', 'w')
 vector2_file = open('vector2.txt', 'w')
+vector3_file = open('vector3.txt', 'w')
+vector4_file = open('vector4.txt', 'w')
+
 vocabulary_file = open('vocabulary.txt', 'w')
 info_file = open('info.txt', 'w')
 
@@ -167,12 +170,13 @@ print(len(sorted_Vocabulary), file=info_file)
 for D in Document_List:
 	print(D.tf_idf_vector, file=vector1_file)
 	print(D.freq_vector, file=vector2_file)
-
-
+	print(D.topics, file=vector3_file)
+	#print(D.title, file=vector4_file)
+ 
 for item in sorted_Vocabulary:
 	print(item[0], file=vocabulary_file)
 
-
+print ("complete")
 #with open('document_data.pkl', 'w') as output:
 #	for D in Document_List:
 #		pickle.dump(D, output, 1)
