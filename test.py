@@ -33,6 +33,7 @@ from nltk.corpus import brown
 
 brown_tagged_sents = brown.tagged_sents(categories='news')
 pos_tagger = nltk.UnigramTagger(brown_tagged_sents)
+topic_only = True;
 
 from nltk.corpus import wordnet
 
@@ -63,7 +64,9 @@ def get_word_frequency(soup):
             	if doc.topics is not None:
                     for topic in doc.topics.children:                    
                         D.topics.append(topic.text)
-                if doc.places is not None:
+		if topic_only and (D.topics == []):
+			continue
+		if doc.places is not None:
                     for place in doc.places.children:                    
                         D.places.append(place.text)
 		D.id = int(id)
@@ -94,7 +97,8 @@ def get_word_frequency(soup):
                                         D.freq[word] = 1
                                 else:
                                         D.freq[word] += 1
-    		currentFreq.append(D)
+    		if (not topic_only) or (D.topics != []):
+			currentFreq.append(D)
     return currentFreq
     
 #ask for directory for dataset
@@ -165,6 +169,7 @@ vocabulary_file = open(outpath + 'vocabulary.txt', 'w')
 info_file = open(outpath  + 'info.txt', 'w')
 label_file = open(outpath + 'label.txt', 'w')
 
+print(len(Document_List), file=info_file)
 print(len(sorted_Vocabulary), file=info_file)
 
 for D in Document_List:
